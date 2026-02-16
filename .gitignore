@@ -1,0 +1,26 @@
+# macOS
+.DS_Store
+
+# Python
+__pycache__/
+*.py[cod]
+*.so
+.venv/
+venv/
+.env
+.ipynb_checkpoints/
+
+# Colab / notebook temp
+/content/
+
+# Project outputs
+myCode/output/
+
+# Downloaded datasets and checkpoints (keep repo code tracked)
+VCD/data/
+VCD/checkpoints/
+VCD/experiments/data/coco/
+
+# Hugging Face / model caches
+.cache/
+.huggingface/
