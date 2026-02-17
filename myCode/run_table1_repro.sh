@@ -38,15 +38,16 @@ if ! command -v "$PYTHON_BIN" >/dev/null 2>&1; then
     exit 1
   fi
 fi
-
+# Run the model for all Splits
 for split in random popular; do
   QUESTION_FILE="$EXP_DIR/data/POPE/coco/coco_pope_${split}.json"
-
+  # Run the model for all methods
   for method in regular vcd; do
     ANSWERS_FILE="$OUTPUT_DIR/llava15_coco_pope_${split}_answers_${method}_seed${SEED}.jsonl"
 
     echo "Running split=$split method=$method"
-
+    
+    # Run the .py script from the original experiment for LLaVA
     CMD=(
       "$PYTHON_BIN" ./eval/object_hallucination_vqa_llava.py
       --model-path "$MODEL_PATH"
@@ -56,6 +57,7 @@ for split in random popular; do
       --seed "$SEED"
     )
 
+    # Use VCD
     if [[ "$method" == "vcd" ]]; then
       CMD+=(
         --use_cd

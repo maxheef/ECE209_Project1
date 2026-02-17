@@ -1,4 +1,7 @@
 #!/usr/bin/env python3
+# compute_pope_metrics.py
+# This section will pull all the str data from temporary files on Google Colab
+# then will use the yes/no answers to define true/false positives/negatives
 import argparse
 import json
 from typing import Dict, List
@@ -8,7 +11,7 @@ def _load_jsonl(path: str) -> List[Dict]:
     with open(path, "r", encoding="utf-8") as f:
         return [json.loads(line) for line in f if line.strip()]
 
-
+# Define True Positive, True Negative, False Positive, False Negative
 def compute_metrics(gt_path: str, pred_path: str) -> Dict[str, float]:
     gt_rows = _load_jsonl(gt_path)
     pred_rows = _load_jsonl(pred_path)

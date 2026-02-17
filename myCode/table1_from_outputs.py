@@ -1,4 +1,7 @@
 #!/usr/bin/env python3
+# table1_from_outputs.py
+# This will take the metrics from compute_pope_metrics.py and output it
+# into a nice table in the terminal
 import argparse
 import json
 import os
