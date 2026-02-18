@@ -1,3 +1,7 @@
+# Maxwell Heefner
+# ECE209AS Trustworthy AI
+# 18 Feb 26
+# setup_h100_env.sh
 #!/usr/bin/env bash
 set -euo pipefail
 

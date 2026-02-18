@@ -1,3 +1,7 @@
+# Maxwell Heefner
+# ECE209AS Trustworthy AI
+# 18 Feb 26
+# run_table1.sh
 #!/usr/bin/env bash
 set -euo pipefail
 

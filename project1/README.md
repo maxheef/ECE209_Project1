@@ -1,10 +1,10 @@
-# Project1 Minimal Reproduction (Uses originalProject)
+# Project1
 
 This folder contains a items for Task A that **reuses code from `originalProject`**
 
 ## Files
 - `setup_h100_env.sh`: Creates Python 3.9 conda env and installs compatible deps for Colab H100 GPU.
-- `run_table1_minimal.sh`: Runs 4 settings (random/popular x regular/vcd) and re-creates Table 1 from: Mitigating Object Hallucinations in Large Vision-Language Models through
+- `run_table1.sh`: Runs 4 iterations (random/popular and regular/vcd) and re-creates Table 1 from: Mitigating Object Hallucinations in Large Vision-Language Models through
 Visual Contrastive Decoding
 
 ## Using an H100 GPU thorugh Colab
@@ -40,7 +40,7 @@ fi
 set -e
 cd /content/VCD_project
 PYBIN=$(cat /tmp/project1_python_bin.txt)
-PYTHON_BIN="$PYBIN" bash project1/run_table1_minimal.sh \
+PYTHON_BIN="$PYBIN" bash project1/run_table1.sh \
   liuhaotian/llava-v1.5-7b \
   /content/datasets/coco/val2014 \
   55
