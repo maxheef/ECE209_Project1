@@ -67,3 +67,12 @@ Outputs:
 The papers located in `/Papers` were referenced to understand Mitigating Object Hallucinationw with VCD, in addition to the `https://github.com/DAMO-NLP-SG/VCD.git` repository which was cloned into `/originalProject` 
 The cloned Git Repository was used to run the experiment, specifically with `/eval/object_hallucination_vqa_llava.py`
 In addition to the provided material and Git repository, the VSCode Extension of CODEX was utilized to aid with template generation and creation of `setup_h100_env.sh` to fix compatibility errors with the Colab H100 GPU. *Prettier* was used to help format and propse commands to generate clean and efficient code.
+
+## Citation
+@article{damonlpsg2023vcd,
+  author = {Sicong Leng, Hang Zhang, Guanzheng Chen, Xin Li, Shijian Lu, Chunyan Miao, Lidong Bing},
+  title = {Mitigating Object Hallucinations in Large Vision-Language Models through Visual Contrastive Decoding},
+  year = 2023,
+  journal = {arXiv preprint arXiv:2311.16922},
+  url = {https://arxiv.org/abs/2311.16922}
+}
