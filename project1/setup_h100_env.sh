@@ -3,6 +3,9 @@
 # 18 Feb 26
 # setup_h100_env.sh
 #!/usr/bin/env bash
+
+# Documentation: CODEX Extension utilized to troubleshoot runtime errors for compatibility
+# and aided in generation of this document to ensure a Colab H100 GPU had proper configurations
 set -euo pipefail
 
 ROOT_DIR="${1:-/content/VCD_project}"
