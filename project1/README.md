@@ -16,6 +16,9 @@ Visual Contrastive Decoding*
 ## Using an H100 GPU thorugh Colab
 - Multiple compatibility errors were noted when using the some of the `originalProject` files, because python 3.9 and numpy 1.x must be used
 
+
+## Summary of the commands
+# Clone GitHub repository to Colab GPU
 ```bash
 %%bash
 set -e
@@ -25,6 +28,7 @@ if [ ! -d VCD_project/.git ]; then
 fi
 ```
 
+# Configure the H100 GPU for python 3.9 and numpy 1.x
 ```bash
 %%bash
 set -e
@@ -32,6 +36,7 @@ cd /content/VCD_project
 bash project1/setup_h100_env.sh /content/VCD_project
 ```
 
+# Download the MSCOCO imageset
 ```bash
 %%bash
 set -e
@@ -43,6 +48,7 @@ if [ ! -d val2014 ]; then
 fi
 ```
 
+# Create Table 1 variables and output in neat format
 ```bash
 %%bash
 set -e
