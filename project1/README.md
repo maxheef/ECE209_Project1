@@ -62,3 +62,8 @@ PYTHON_BIN="$PYBIN" bash project1/run_table1.sh \
 
 Outputs:
 - `/content/VCD_project/project1/output`
+
+## Documentaion statement
+The papers located in `/Papers` were referenced to understand Mitigating Object Hallucinationw with VCD, in addition to the `https://github.com/DAMO-NLP-SG/VCD.git` repository which was cloned into `/originalProject` 
+The cloned Git Repository was used to run the experiment, specifically with `/eval/object_hallucination_vqa_llava.py`
+In addition to the provided material and Git repository, the VSCode Extension of CODEX was utilized to aid with template generation and creation of `setup_h100_env.sh` to fix compatibility errors with the Colab H100 GPU. *Prettier* was used to help format and propse commands to generate clean and efficient code.
