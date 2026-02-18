@@ -53,7 +53,7 @@ for split in random popular; do
       --seed "$SEED"
     )
 
-    # Use VCD
+    # Setup for VCD
     if [[ "$method" == "vcd" ]]; then
       cmd+=(
         --use_cd
