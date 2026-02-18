@@ -37,11 +37,11 @@ if [[ ! -d "$COCO_VAL_DIR" ]]; then
   exit 1
 fi
 
-# Run all split types (random and regular)
+# Run all POPE types (random and popular)
 for split in random popular; do
   question_file="$ORIG_DIR/experiments/data/POPE/coco/coco_pope_${split}.json"
 
-  # Run all method types (random and vcd)
+  # Run all method types (regular and vcd)
   for method in regular vcd; do
     answers_file="$OUT_DIR/llava15_coco_pope_${split}_answers_${method}_seed${SEED}.jsonl"
     metrics_file="$OUT_DIR/metrics_${split}_${method}_seed${SEED}.txt"
