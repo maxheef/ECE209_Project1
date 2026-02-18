@@ -26,6 +26,7 @@ NOISE_STEP="${NOISE_STEP:-500}"
 
 mkdir -p "$OUT_DIR"
 
+# Verify if the originalProject is available
 if [[ ! -d "$ORIG_DIR/experiments" ]]; then
   echo "Missing experiments directory: $ORIG_DIR/experiments"
   exit 1
@@ -78,6 +79,7 @@ for split in random popular; do
   done
 done
 
+# Return all outputs and format into a Table
 "$PYTHON_BIN" - <<'PY' "$OUT_DIR" "$SEED"
 import re
 import sys
