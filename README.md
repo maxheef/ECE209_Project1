@@ -9,9 +9,11 @@ This folder contains a items for Task A that reuses code from `originalProject`
 - `project1.ipynb`: Jupyter Notebook that will run all code and configure the Colab H100 GPU for use and then re-create Table 1 from *Mitigating Object Hallucinations in Large Vision-Language Models through Visual Contrastive Decoding* 
   - Note: All files that the H100 GPU will reference are cloned from GitHub into `/content` storage then writes the outputs to temporary storage on Colab `/content/VCD_project/project1/output`
 - `setup_h100_env.sh`: Creates Python 3.9 conda env and installs compatible deps for Colab H100 GPU.
-- `run_table1.sh`: Runs 4 iterations (random/popular and regular/vcd) and re-creates Table 1 from: *Mitigating Object Hallucinations in Large Vision-Language Models through
-Visual Contrastive Decoding*
+- `run_table1.sh`: Runs 4 iterations (*random/popular* and *regular/vcd*) and re-creates Table 1 from: *Mitigating Object Hallucinations in Large Vision-Language Models through
+Visual Contrastive Decoding* by *Leng et al.*
     - This file accomplishes this by calling `/eval/object_hallucination_vqa_llava.py` from the original VCD project and implementing all of the desired parameters (*SEED, Alpha, Beta, Noise Step, etc.*).
+    - POPE datasets were used from `originalProject` for both random and popular, located here: `experiments/data/POPE/coco/coco_pope_random.json` and `experiments/data/POPE/coco/coco_pope_popular.json`
+    - In order to evaluate the results `/eval/eval_pope.py` from `originalProject` was utilized to keep track of True/False Positve/Negative results and calculate *Accuracy*, *Precision*, *Recall* and *F1 Score*
 
 ## Using an H100 GPU thorugh Colab
 - Multiple compatibility errors were noted when using the some of the `originalProject` files, because python 3.9 and numpy 1.x must be used
