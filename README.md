@@ -6,8 +6,8 @@
 This folder contains a items for Task A that reuses code from `originalProject`
 
 ## Files
-- `project1.ipynb`: Jupyter Notebook that will run all code and configure the Colab H100 GPU for use and then re-create Table 1 from *Mitigating Object Hallucinations in Large Vision-Language Models through Visual Contrastive Decoding* 
-  - Note: All files that the H100 GPU will reference are cloned from GitHub into `/content` storage then writes the outputs to temporary storage on Colab `/content/VCD_project/project1/output`
+- `myTasks.ipynb`: Jupyter Notebook that will run all code and configure the Colab H100 GPU for use and then re-create Table 1 from *Mitigating Object Hallucinations in Large Vision-Language Models through Visual Contrastive Decoding* 
+  - Note: All files that the H100 GPU will reference are cloned from GitHub into `/content` storage then writes the outputs to temporary storage on Colab `/content/VCD_project/myTasks/output`
 - `setup_h100_env.sh`: Creates Python 3.9 conda env and installs compatible deps for Colab H100 GPU.
 - `run_table1.sh`: Runs 4 iterations (*random/popular* and *regular/vcd*) and re-creates Table 1 from: *Mitigating Object Hallucinations in Large Vision-Language Models through
 Visual Contrastive Decoding* by *Leng et al.*
@@ -35,7 +35,7 @@ fi
 %%bash
 set -e
 cd /content/VCD_project
-bash project1/setup_h100_env.sh /content/VCD_project
+bash myTasks/setup_h100_env.sh /content/VCD_project
 ```
 
 ### Download the MSCOCO imageset
@@ -55,15 +55,15 @@ fi
 %%bash
 set -e
 cd /content/VCD_project
-PYBIN=$(cat /tmp/project1_python_bin.txt)
-PYTHON_BIN="$PYBIN" bash project1/run_table1.sh \
+PYBIN=$(cat /tmp/myTasks_python_bin.txt)
+PYTHON_BIN="$PYBIN" bash myTasks/run_table1.sh \
   liuhaotian/llava-v1.5-7b \
   /content/datasets/coco/val2014 \
   55
 ```
 
 Outputs:
-- `/content/VCD_project/project1/output`
+- `/content/VCD_project/myTasks/output`
 
 ## Documentaion statement
 The papers located in `/Papers` were referenced to understand Mitigating Object Hallucinationw with VCD, in addition to the `https://github.com/DAMO-NLP-SG/VCD.git` repository which was cloned into `/originalProject` 

@@ -41,7 +41,7 @@ pip install --upgrade --index-url https://download.pytorch.org/whl/cu121 torch==
 # Keep ABI compatibility with older compiled deps.
 pip install --force-reinstall 'numpy<2'
 
-echo "/usr/local/miniconda/envs/${ENV_NAME}/bin/python" > /tmp/project1_python_bin.txt
+echo "/usr/local/miniconda/envs/${ENV_NAME}/bin/python" > /tmp/myTasks_python_bin.txt
 python - <<'PY'
 import torch, numpy
 print('Torch:', torch.__version__)

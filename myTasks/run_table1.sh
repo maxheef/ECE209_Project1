@@ -17,7 +17,7 @@ SEED="${3:-55}"
 
 ROOT_DIR="${ROOT_DIR:-/content/VCD_project}"
 ORIG_DIR="$ROOT_DIR/originalProject"
-OUT_DIR="$ROOT_DIR/project1/output"
+OUT_DIR="$ROOT_DIR/myTasks/output"
 PYTHON_BIN="${PYTHON_BIN:-python3}"
 
 CD_ALPHA="${CD_ALPHA:-1.0}"
