@@ -1,7 +1,7 @@
 --index-url https://download.pytorch.org/whl/cu128
-torch>=2.7.0,<2.8.0
-torchvision>=0.22.0,<0.23.0
-torchaudio>=2.7.0,<2.8.0
+torch==2.7.0+cu128
+torchvision==0.22.0+cu128
+torchaudio==2.7.0+cu128
 xformers==0.0.30
 triton==3.3.0
 flash_attn==2.7.4.post1
