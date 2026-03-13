@@ -6,7 +6,7 @@ xformers>=0.0.30
 triton==3.3.0
 # --- Strict Dependency Resolution ---
 numpy==2.0.2
-pydantic==2.11.0
+#pydantic==2.11.0
 pandas==2.2.2
 ipython>=8.20.0
 # --- Colab/API Alignment ---
