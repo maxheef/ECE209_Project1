@@ -7,8 +7,6 @@ torchaudio==2.7.0+cu128
 # Ensure xformers is 0.0.30+ to support sm_120
 xformers>=0.0.30 
 triton==3.3.0
-# FlashAttention-2 2.7.4+ is required for Blackwell/sm_120 support
-flash_attn>=2.7.4.post1
 
 # --- Strict Dependency Resolution ---
 numpy==2.0.2
