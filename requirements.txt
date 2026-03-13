@@ -7,7 +7,7 @@ torchvision==0.22.0+cu128
 torchaudio==2.7.0+cu128
 xformers>=0.0.30
 triton==3.3.0
-#flash_attn>=2.7.4.post1
+flash_attn>=2.7.4.post1
 
 # --- Strict Dependency Resolution ---
 numpy==2.0.2
@@ -33,7 +33,7 @@ tokenizers~=0.21.0
 sentencepiece~=0.2.0
 scipy~=1.15.2
 scikit-learn~=1.6.1
-# shortuuid==1.0.13
+shortuuid==1.0.13
 pillow~=11.1.0
 tqdm~=4.67.1
 nltk~=3.9.1
