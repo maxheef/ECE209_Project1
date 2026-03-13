@@ -1,19 +1,26 @@
---index-url https://download.pytorch.org/
+--index-url https://download.pytorch.org/whl/cu128
 torch==2.7.0+cu128
 torchvision==0.22.0+cu128
 torchaudio==2.7.0+cu128
-xformers==0.0.30
+
+# Optimization Libraries (Blackwell Optimized)
+# Ensure xformers is 0.0.30+ to support sm_120
+xformers>=0.0.30 
 triton==3.3.0
-flash_attn==2.7.4.post1
+# FlashAttention-2 2.7.4+ is required for Blackwell/sm_120 support
+flash_attn>=2.7.4.post1
+
 # --- Strict Dependency Resolution ---
 numpy==2.0.2
 pydantic==2.11.0
 pandas==2.2.2
 ipython==7.34.0
+
 # --- Colab/API Alignment ---
 fastapi>=0.124.1,<1.0.0
 starlette>=0.49.1,<1.0.0
 typing_extensions>=4.14.0
+
 # --- Secondary Libraries ---
 bitsandbytes~=0.45.2
 deepspeed~=0.16.3
@@ -27,7 +34,6 @@ tokenizers~=0.21.0
 sentencepiece~=0.2.0
 scipy~=1.15.2
 scikit-learn~=1.6.1
-# shortuuid~=1.0.13
 pillow~=11.1.0
 tqdm~=4.67.1
 nltk~=3.9.1
