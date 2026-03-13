@@ -1,5 +1,5 @@
 --index-url https://pypi.org
---extra-index-url https://download.pytorch.org
+--extra-index-url https://download.pytorch.org/whl/cu128
 
 # Core Blackwell Stack (Compute sm_120)
 torch==2.7.0+cu128
