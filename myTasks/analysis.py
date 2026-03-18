@@ -71,6 +71,8 @@ def show_comparison_table(output_dir='/content/VCD_project/output'):
         reg_idx = df[(df['Split'] == split) & (df['Method'] == 'Regular')].index
         if len(reg_idx) > 0:
             df.at[reg_idx[0], 'Gain vs Regular (%)'] = '-'
+    # Make column object to allow mixed types (string for baseline)
+    df['Gain vs Regular (%)'] = df['Gain vs Regular (%)'].astype(object)
 
     styled_df = df.style.format({
         'Accuracy': '{:.4f}', 'Precision': '{:.4f}', 'Recall': '{:.4f}', 
