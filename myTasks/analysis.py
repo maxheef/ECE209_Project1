@@ -4,10 +4,11 @@ from pathlib import Path
 from IPython.display import display, Markdown
 
 def parse_metrics_json(path: Path):
-    if not path.exists(): return None
+    if not path.exists():
+        return None
     try:
         data = json.loads(path.read_text())
-        # Mapping common keys found in POPE/VCD/MFCD outputs
+        # Handles both lowercase (MFCD) and title case (Regular/VCD) keys
         return {
             'Accuracy': float(data.get('accuracy', data.get('Accuracy', 0.0))),
             'Precision': float(data.get('precision', data.get('Precision', 0.0))),
@@ -21,14 +22,14 @@ def show_comparison_table(output_dir='/content/VCD_project/output'):
     out_dir = Path(output_dir)
     rows = []
     
-    # These match your actual generated filenames
+    # Corrected config to match your exact file list
     configs = [
         ('random', 'Regular', out_dir / 'metrics_random_regular.json'),
-        ('random', 'VCD', out_dir / 'metrics_random_vcd.json'),
-        ('random', 'MFCD', out_dir / 'metrics_mfcd_random.json'),
+        ('random', 'VCD',     out_dir / 'metrics_random_vcd.json'),
+        ('random', 'MFCD',    out_dir / 'metrics_mfcd_random.json'),
         ('popular', 'Regular', out_dir / 'metrics_popular_regular.json'),
-        ('popular', 'VCD', out_dir / 'metrics_popular_vcd.json'),
-        ('popular', 'MFCD', out_dir / 'metrics_mfcd_popular.json'),
+        ('popular', 'VCD',     out_dir / 'metrics_popular_vcd.json'),
+        ('popular', 'MFCD',    out_dir / 'metrics_mfcd_popular.json'),
     ]
 
     for split, method, path in configs:
@@ -37,12 +38,12 @@ def show_comparison_table(output_dir='/content/VCD_project/output'):
             rows.append({'Split': split, 'Method': method, **m})
 
     if not rows:
-        print(f"No valid metric JSONs found in {out_dir}.")
+        print(f"No files found in {out_dir}. Please check task outputs.")
         return
 
     df = pd.DataFrame(rows)
     
-    # Calculate Gain vs Previous row (Regular -> VCD -> MFCD)
+    # Calculate Gain vs Previous row (e.g., VCD vs Regular, MFCD vs VCD)
     df['Gain vs Prev (%)'] = 0.0
     for split in df['Split'].unique():
         idx = df[df['Split'] == split].index
@@ -52,7 +53,7 @@ def show_comparison_table(output_dir='/content/VCD_project/output'):
             if prev_f1 > 0:
                 df.at[idx[i], 'Gain vs Prev (%)'] = ((curr_f1 - prev_f1) / prev_f1) * 100
 
-    # Styling for Jupyter
+    # Styling for notebook display
     def color_gain(val):
         color = 'green' if val > 0 else ('red' if val < 0 else 'gray')
         return f'color: {color}; font-weight: bold'
@@ -62,5 +63,5 @@ def show_comparison_table(output_dir='/content/VCD_project/output'):
         'F1': '{:.4f}', 'Gain vs Prev (%)': '{:+.2f}%'
     }).map(color_gain, subset=['Gain vs Prev (%)']).hide(axis='index')
 
-    display(Markdown("### Hallucination Mitigation Comparison (VCD vs MFCD)"))
+    display(Markdown("### VQA Hallucination Mitigation: Regular vs VCD vs MFCD"))
     display(styled_df)
