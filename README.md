@@ -21,18 +21,21 @@ This folder contains a items for Task A and B that reuses code from `originalPro
       - POPE datasets were used from `originalProject` for both random and popular, located here: `experiments/data/POPE/coco/coco_pope_random.json` and `experiments/data/POPE/coco/coco_pope_popular.json`
       - In order to evaluate the results `/eval/eval_pope.py` from `originalProject` was utilized to keep track of True/False Positve/Negative results and calculate *Accuracy*, *Precision*, *Recall* and *F1 Score*
       - VCD source files used by task_a_vcd.py (from originalProject)
-      -  /originalProject/experiments/eval/object_hallucination_vqa_llava.py
-      -  /originalProject/experiments/eval/eval_pope.py
-      -  /originalProject/experiments/data/POPE/coco/coco_pope_random.json
-      -  /originalProject/experiments/data/POPE/coco/coco_pope_popular.json
+      -  `/originalProject/experiments/eval/object_hallucination_vqa_llava.py`
+      -  `/originalProject/experiments/eval/eval_pope.py`
+      -  `/originalProject/experiments/data/POPE/coco/coco_pope_random.json`
+      -  `/originalProject/experiments/data/POPE/coco/coco_pope_popular.json`
     - `task_b_mfcd.py`: Runs 2 iterations (*random/popular* and *MFCD*) and re-creates Table 3 data from: *Multi-Frequency Contrastive Decoding: Alleviating Hallucinations for Large Vision-Language Models* by *Liu et al.* for comparison with the data found in *Task A*.
       - MFCD source files used by task_b_mfcd.py
-        - /originalMFCD/mfcd/eval_utils/__init__.py
-        - /originalMFCD/mfcd/eval_utils/eval_utils.py
-        - /originalMFCD/mfcd/eval/pope/eval.py
-        -  /originalMFCD/mfcd/processor/processor.py
-        -  /originalMFCD/mfcd/utils/ (helper functions used by MFCD evaluation pipeline)
-        -  /originalMFCD/mfcd/transformers/ (MFCD‑bundled Transformers fork required by evaluation pipeline)
+        - `/originalMFCD/mfcd/eval_utils/__init__.py`
+        - `/originalMFCD/mfcd/eval_utils/eval_utils.py`
+        - `/originalMFCD/mfcd/eval/pope/eval.py`
+        -  `/originalMFCD/mfcd/processor/processor.py`
+        -  `/originalMFCD/mfcd/utils/` (helper functions used by MFCD evaluation pipeline)
+        -  `/originalMFCD/mfcd/transformers/` (MFCD‑bundled Transformers fork required by evaluation pipeline)
+
+## How to Run
+Run the `/myTasks/Main.ipynb` all the way through. It will take ~100 min to complete on a colab G4 or H100 GPU. This will synchronize all files from the most recent Git Repository, and generate a neat comparison table for Regular vs. VCD vs MFCD on POPE for both Random and Popular MSCOCO datasets.
 
 ## Using an Differnt GPUs thorugh Colab
 ### H100 GPU
@@ -67,4 +70,5 @@ In addition to the provided material and Git repository, the VSCode Extension of
   pages = {28568--28584},
   address = {Suzhou, China},
   publisher = {Association for Computational Linguistics}
+  url = {https://aclanthology.org/2025.emnlp-main.1452.pdf}
 }
