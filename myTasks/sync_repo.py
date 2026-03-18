@@ -4,7 +4,7 @@ from pathlib import Path
 
 ROOT = '/content/VCD_project'
 BRANCH = os.getenv('BRANCH', 'main')
-REPO_URL = os.getenv('REPO_URL', 'https://github.com')
+REPO_URL = os.getenv('REPO_URL', 'https://github.com/maxheef/ECE209_Project1.git')
 
 def sync():
     print(f"--- Syncing Repository ({BRANCH}) ---")

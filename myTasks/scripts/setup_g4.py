@@ -4,13 +4,26 @@ import shutil
 import torch
 from pathlib import Path
 
-def run_cmd(cmd):
-    process = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True, env=os.environ.copy())
-    for line in process.stdout:
-        print(line, end='')
-    process.wait()
-    if process.returncode != 0:
-        raise Exception(f"Command failed: {cmd}")
+def run_cmd(cmd, quiet=True):
+    """Executes commands silently unless an error occurs."""
+    if quiet:
+        # Run silently in the background
+        result = subprocess.run(
+            cmd, shell=True, stdout=subprocess.DEVNULL, 
+            stderr=subprocess.PIPE, text=True, env=os.environ.copy()
+        )
+        if result.returncode != 0:
+            # If it fails, print the error so you can debug
+            print(f"\nError details: {result.stderr}")
+            raise Exception(f"Command failed: {cmd}")
+    else:
+        # Standard streaming output
+        process = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True, env=os.environ.copy())
+        for line in process.stdout:
+            print(line, end='')
+        process.wait()
+        if process.returncode != 0:
+            raise Exception(f"Command failed: {cmd}")
 
 def setup_environments():
     # --- Configuration ---
@@ -25,12 +38,9 @@ def setup_environments():
     MFCD_PY = f'{CONDA_PATH}/envs/{MFCD_ENV}/bin/python'
     MFCD_PIP = f'{CONDA_PATH}/envs/{MFCD_ENV}/bin/pip'
 
-    # 0) Detect GPU
-    gpu_name = torch.cuda.get_device_name(0) if torch.cuda.is_available() else "CPU"
-    print(f"Detected GPU: {gpu_name}")
-
     # 1) Setup Miniconda
     if not os.path.exists(CONDA_PATH):
+        print("Installing Miniconda...")
         run_cmd('wget -q https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O /tmp/miniconda.sh')
         run_cmd(f'bash /tmp/miniconda.sh -b -p {CONDA_PATH}')
 
@@ -44,26 +54,28 @@ def setup_environments():
         env_path = f'{CONDA_PATH}/envs/{env_name}'
         if os.path.exists(env_path):
             shutil.rmtree(env_path)
-        print(f'Creating environment {env_name} (Python 3.10)...')
+        print(f'Creating environment: {env_name}...')
         run_cmd(f"{conda_bin} create -n {env_name} python=3.10 -y")
 
     # 3) Install base requirements
     if not os.path.exists(REQ_FILE):
          raise FileNotFoundError(f"Missing {REQ_FILE}")
 
+    print("Installing base requirements (this takes ~3 mins)...")
     for pip_bin in [VCD_PIP, MFCD_PIP]:
         run_cmd(f"{pip_bin} install --upgrade pip setuptools wheel")
         run_cmd(f"{pip_bin} install --no-cache-dir -r {REQ_FILE}")
 
-    # 4) Pin versions (VCD vs MFCD conflicts)
+    # 4) Pin versions
+    print("Applying version pins for VCD and MFCD...")
     run_cmd(f"{VCD_PIP} install --no-cache-dir 'transformers==4.31.0' 'tokenizers==0.13.3' 'numpy<2'")
     run_cmd(f"{MFCD_PIP} install --no-cache-dir 'tokenizers==0.21.0' 'numpy<2'")
 
-    # 5) Save binary paths for the notebook to read
+    # 5) Save binary paths
     Path('/tmp/vcd_py_path.txt').write_text(VCD_PY)
     Path('/tmp/mfcd_py_path.txt').write_text(MFCD_PY)
     
-    print(f"\nSetup Complete.\nVCD Python: {VCD_PY}\nMFCD Python: {MFCD_PY}")
+    print(f"G4 Environment Setup Complete.")
 
 if __name__ == '__main__':
     setup_environments()
