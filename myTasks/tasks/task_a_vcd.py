@@ -4,6 +4,7 @@ import torch
 import gc
 import subprocess
 import json
+import re
 from pathlib import Path
 
 # --- Constants ---
@@ -41,10 +42,20 @@ def run_vqa_step(split, method):
     # Run Eval and capture output to parse metrics
     eval_cmd = [sys.executable, "./eval/eval_pope.py", "--gt_files", question_file, "--gen_files", answers_file]
     result = subprocess.run(eval_cmd, capture_output=True, text=True, check=True)
-    
-    # Logic to save the result.stdout into metrics_file (JSON) goes here...
-    # For now, let's just save the raw text
-    Path(metrics_file).write_text(result.stdout)
+
+    # Parse eval output into a clean JSON metrics file
+    def grab(key):
+        m = re.search(rf"^{key}:\s*([0-9.]+)", result.stdout, re.MULTILINE)
+        return float(m.group(1)) if m else None
+
+    metrics = {
+        "accuracy": grab("Accuracy"),
+        "precision": grab("Precision"),
+        "recall": grab("Recall"),
+        "f1": grab("F1"),
+    }
+
+    Path(metrics_file).write_text(json.dumps(metrics, indent=2))
     
     gc.collect()
     torch.cuda.empty_cache()

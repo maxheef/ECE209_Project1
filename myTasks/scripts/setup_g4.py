@@ -71,9 +71,11 @@ def setup_environments():
     run_cmd(f"{VCD_PIP} install --no-cache-dir 'transformers==4.31.0' 'tokenizers==0.13.3' 'numpy<2'")
     run_cmd(f"{MFCD_PIP} install --no-cache-dir 'tokenizers==0.21.0' 'numpy<2'")
 
-    # 5) Save binary paths
+    # 5) Save binary paths (legacy + current)
     Path('/tmp/vcd_py_path.txt').write_text(VCD_PY)
     Path('/tmp/mfcd_py_path.txt').write_text(MFCD_PY)
+    Path('/tmp/vcd_bin.txt').write_text(VCD_PY)
+    Path('/tmp/mfcd_bin.txt').write_text(MFCD_PY)
     
     print(f"G4 Environment Setup Complete.")
 

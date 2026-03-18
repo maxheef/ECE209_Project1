@@ -18,6 +18,7 @@ def run_cmd(cmd, cwd=None):
 
 def setup_h100_env(root_dir="/content/VCD_project", env_name="vcd39"):
     orig_dir = os.path.join(root_dir, "originalProject")
+    req_file = os.path.join(root_dir, "requirements.txt")
     conda_path = "/usr/local/miniconda"
     conda_bin = f"{conda_path}/bin/conda"
     env_path = f"{conda_path}/envs/{env_name}"
@@ -31,14 +32,14 @@ def setup_h100_env(root_dir="/content/VCD_project", env_name="vcd39"):
     # 2) Install Miniconda if missing
     if not os.path.exists(conda_bin):
         print("Installing Miniconda...")
-        run_cmd('wget -q https://repo.anaconda.com -O /tmp/miniconda.sh')
+        run_cmd('wget -q https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O /tmp/miniconda.sh')
         run_cmd(f'bash /tmp/miniconda.sh -b -p {conda_path}')
 
     # 3) Initialize Conda settings
     run_cmd(f"{conda_bin} config --set always_yes yes --set changeps1 no")
     # Accept TOS if needed
     for channel in ["main", "r"]:
-        run_cmd(f"{conda_bin} tos accept --override-channels --channel https://repo.anaconda.com{channel} || true")
+        run_cmd(f"{conda_bin} tos accept --override-channels --channel https://repo.anaconda.com/pkgs/{channel} || true")
 
     # 4) Create Environment
     if not os.path.exists(env_path):
@@ -48,7 +49,9 @@ def setup_h100_env(root_dir="/content/VCD_project", env_name="vcd39"):
     # 5) Install Requirements & Hardware-Specific Pins
     print("Installing H100 optimized packages...")
     run_cmd(f"{pip_bin} install --upgrade pip")
-    run_cmd(f"{pip_bin} install -r requirements.txt", cwd=orig_dir)
+    if not os.path.exists(req_file):
+        raise FileNotFoundError(f"Missing requirements.txt: {req_file}")
+    run_cmd(f"{pip_bin} install -r {req_file}")
     
     # H100-specific: Newer Torch (cu121) for performance and compatibility
     run_cmd(f"{pip_bin} install --upgrade --index-url https://download.pytorch.org torch==2.2.2 torchvision==0.17.2")
@@ -57,7 +60,7 @@ def setup_h100_env(root_dir="/content/VCD_project", env_name="vcd39"):
     run_cmd(f"{pip_bin} install --force-reinstall 'numpy<2'")
 
     # 6) Record Python path for Orchestrator
-    Path('/tmp/myTasks_python_bin.txt').write_text(python_bin)
+    Path('/tmp/vcd_bin.txt').write_text(python_bin)
     
     # 7) Verification
     print("\n--- H100 Verification ---")
