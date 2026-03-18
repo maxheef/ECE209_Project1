@@ -33,7 +33,6 @@ def show_comparison_table(output_dir='/content/VCD_project/output'):
     out_dir = Path(output_dir)
     rows = []
     
-    # Matching your exact file list provided earlier
     configs = [
         ('random',  'Regular', out_dir / 'metrics_random_regular.json'),
         ('random',  'VCD',     out_dir / 'metrics_random_vcd.json'),
@@ -45,7 +44,7 @@ def show_comparison_table(output_dir='/content/VCD_project/output'):
 
     for split, method, path in configs:
         m = parse_metrics_json(path)
-        if m and m['Accuracy'] > 0: # Ensure we didn't just get 0s
+        if m and m['Accuracy'] > 0: 
             rows.append({'Split': split, 'Method': method, **m})
         else:
             print(f"Skipping {method} ({split}): File missing or empty metrics.")
@@ -56,20 +55,24 @@ def show_comparison_table(output_dir='/content/VCD_project/output'):
 
     df = pd.DataFrame(rows)
     
-    # Logic to calculate percentage improvement
-    df['Gain vs Prev (%)'] = 0.0
+    # Logic to calculate percentage improvement vs Regular
+    df['Gain vs Regular (%)'] = 0.0
     for split in df['Split'].unique():
-        idx = df[df['Split'] == split].index
-        for i in range(1, len(idx)):
-            prev_f1, curr_f1 = df.loc[idx[i-1], 'F1'], df.loc[idx[i], 'F1']
-            if prev_f1 > 0:
-                df.at[idx[i], 'Gain vs Prev (%)'] = ((curr_f1 - prev_f1) / prev_f1) * 100
+        base_rows = df[(df['Split'] == split) & (df['Method'] == 'Regular')]
+        if base_rows.empty:
+            continue
+        base_f1 = base_rows.iloc[0]['F1']
+        if base_f1 <= 0:
+            continue
+        for i in df[df['Split'] == split].index:
+            curr_f1 = df.loc[i, 'F1']
+            df.at[i, 'Gain vs Regular (%)'] = ((curr_f1 - base_f1) / base_f1) * 100
 
     styled_df = df.style.format({
         'Accuracy': '{:.4f}', 'Precision': '{:.4f}', 'Recall': '{:.4f}', 
-        'F1': '{:.4f}', 'Gain vs Prev (%)': '{:+.2f}%'
+        'F1': '{:.4f}', 'Gain vs Regular (%)': '{:+.2f}%'
     }).map(lambda v: f'color: {"green" if v > 0 else "red"}; font-weight: bold', 
-           subset=['Gain vs Prev (%)']).hide(axis='index')
+           subset=['Gain vs Regular (%)']).hide(axis='index')
 
     display(Markdown("### VQA Mitigation Comparison: Regular vs VCD vs MFCD"))
     display(styled_df)

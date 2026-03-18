@@ -1,14 +1,19 @@
 # Maxwell Heefner
 # ECE209AS Trustworthy AI
 # 18 Feb 26
-# Project1 Task A
+# Final Project
 
-This folder contains a items for Task A that reuses code from `originalProject`
+This folder contains a items for Task A and B that reuses code from `originalProject` and `originalMFCD`
 
 ## Files
-- `myTasks.ipynb`: Jupyter Notebook that will run all code and configure the Colab H100 GPU for use and then re-create Table 1 from *Mitigating Object Hallucinations in Large Vision-Language Models through Visual Contrastive Decoding* 
-  - Note: All files that the H100 GPU will reference are cloned from GitHub into `/content` storage then writes the outputs to temporary storage on Colab `/content/VCD_project/myTasks/output`
-- `setup_h100_env.sh`: Creates Python 3.9 conda env and installs compatible deps for Colab H100 GPU.
+- `/myTasks`: Contains all files written for the completion of Task A and B for the ECE209AS Final Project
+  - `Main.ipynd`: Jupyter Notebook that will run all code and configure the Colab GPU for use and then re-create Table 1 from *Mitigating Object Hallucinations in Large Vision-Language Models through Visual Contrastive Decoding* then continue to accomplish improvements to VCD by running a MFCD comparison.
+    - Note: All files that the H100 GPU will reference are cloned from GitHub into `/content` storage then writes the outputs to temporary storage on Colab `/content/VCD_project/myTasks/output`
+  - `init_setup.py`: Will detect the Colab GPU being used (G4 or H100) and initialize the setup by downloading all requirements listed in `requirements.txt`
+  - `analysis.py`: Generates a comparison table for all results of Regular/VCD/MFCD on Regular/Random Splits
+- `/scripts`: Contains setup scripts for the Colab G4 or H100 GPU respectively
+  - `setup_g4.py`: Will initialize the setup for a G4 GPU
+  - `setup_h100.py`: Will initialize the setup for a H100 GPU
 - `run_table1.sh`: Runs 4 iterations (*random/popular* and *regular/vcd*) and re-creates Table 1 from: *Mitigating Object Hallucinations in Large Vision-Language Models through
 Visual Contrastive Decoding* by *Leng et al.*
     - This file accomplishes this by calling `/eval/object_hallucination_vqa_llava.py` from the original VCD project and implementing all of the desired parameters (*SEED, Alpha, Beta, Noise Step, etc.*).
