@@ -67,11 +67,16 @@ def show_comparison_table(output_dir='/content/VCD_project/output'):
         for i in df[df['Split'] == split].index:
             curr_f1 = df.loc[i, 'F1']
             df.at[i, 'Gain vs Regular (%)'] = ((curr_f1 - base_f1) / base_f1) * 100
+        # Use "-" for the Regular baseline row
+        reg_idx = df[(df['Split'] == split) & (df['Method'] == 'Regular')].index
+        if len(reg_idx) > 0:
+            df.at[reg_idx[0], 'Gain vs Regular (%)'] = '-'
 
     styled_df = df.style.format({
         'Accuracy': '{:.4f}', 'Precision': '{:.4f}', 'Recall': '{:.4f}', 
-        'F1': '{:.4f}', 'Gain vs Regular (%)': '{:+.2f}%'
-    }).map(lambda v: f'color: {"green" if v > 0 else "red"}; font-weight: bold', 
+        'F1': '{:.4f}',
+        'Gain vs Regular (%)': lambda v: v if isinstance(v, str) else f'{v:+.2f}%'
+    }).map(lambda v: f'color: {"green" if v > 0 else "red"}; font-weight: bold',
            subset=['Gain vs Regular (%)']).hide(axis='index')
 
     display(Markdown("### VQA Mitigation Comparison: Regular vs VCD vs MFCD"))
