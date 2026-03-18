@@ -7,7 +7,7 @@ import json
 import re
 from pathlib import Path
 
-# --- Constants ---
+# Constants 
 ROOT = '/content/VCD_project'
 ORIG = f'{ROOT}/originalProject'
 EXP_DIR = f'{ORIG}/experiments'
@@ -20,8 +20,8 @@ def run_vqa_step(split, method):
     os.makedirs(OUT_DIR, exist_ok=True)
     question_file = f"{EXP_DIR}/data/POPE/coco/coco_pope_{split}.json"
     answers_file = f"{OUT_DIR}/ans_{split}_{method}.jsonl"
-    metrics_file = f"{OUT_DIR}/metrics_{split}_{method}.json" # Save as JSON for easy table building
-
+    metrics_file = f"{OUT_DIR}/metrics_{split}_{method}.json" 
+    
     print(f"\n>>> Task A: Running {split} | {method}")
 
     cmd = [

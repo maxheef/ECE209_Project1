@@ -7,6 +7,10 @@ BRANCH = os.getenv('BRANCH', 'main')
 REPO_URL = os.getenv('REPO_URL', 'https://github.com/maxheef/ECE209_Project1.git')
 
 def sync():
+    """
+    Syncs the local repository with the latest code from the specified GitHub repository and branch.
+    If the repository already exists, it performs a hard reset to the latest commit to ensure a clean state.
+    """
     print(f"--- Syncing Repository ({BRANCH}) ---")
     if os.path.exists(f"{ROOT}/.git"):
         # Fast update

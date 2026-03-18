@@ -25,28 +25,28 @@ def setup_h100_env(root_dir="/content/VCD_project", env_name="vcd39"):
     python_bin = f"{env_path}/bin/python"
     pip_bin = f"{env_path}/bin/pip"
 
-    # 1) Validation
+    # Validation
     if not os.path.isdir(orig_dir):
         raise FileNotFoundError(f"Missing originalProject directory: {orig_dir}")
 
-    # 2) Install Miniconda if missing
+    # Install Miniconda if missing
     if not os.path.exists(conda_bin):
         print("Installing Miniconda...")
         run_cmd('wget -q https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O /tmp/miniconda.sh')
         run_cmd(f'bash /tmp/miniconda.sh -b -p {conda_path}')
 
-    # 3) Initialize Conda settings
+    # Initialize Conda settings
     run_cmd(f"{conda_bin} config --set always_yes yes --set changeps1 no")
     # Accept TOS if needed
     for channel in ["main", "r"]:
         run_cmd(f"{conda_bin} tos accept --override-channels --channel https://repo.anaconda.com/pkgs/{channel} || true")
 
-    # 4) Create Environment
+    # Create Environment
     if not os.path.exists(env_path):
         print(f"Creating environment {env_name} (Python 3.9)...")
         run_cmd(f"{conda_bin} create -n {env_name} python=3.9 -y")
 
-    # 5) Install Requirements & Hardware-Specific Pins
+    # Install Requirements & Hardware-Specific Pins
     print("Installing H100 optimized packages...")
     run_cmd(f"{pip_bin} install --upgrade pip")
     if not os.path.exists(req_file):
@@ -59,13 +59,14 @@ def setup_h100_env(root_dir="/content/VCD_project", env_name="vcd39"):
     # ABI compatibility pin
     run_cmd(f"{pip_bin} install --force-reinstall 'numpy<2'")
 
-    # 6) Record Python path for Orchestrator
+    # Record Python path for Orchestrator
     Path('/tmp/vcd_bin.txt').write_text(python_bin)
     
-    # 7) Verification
+    # Verification
     print("\n--- H100 Verification ---")
     verify_cmd = f"{python_bin} -c 'import torch, numpy; print(\"Torch:\", torch.__version__); print(\"CUDA Available:\", torch.cuda.is_available()); print(\"GPU:\", torch.cuda.get_device_name(0))'"
     run_cmd(verify_cmd)
+    print(f"H100 environment setup complete. Python binary at: {python_bin}")
 
 if __name__ == "__main__":
     setup_h100_env()

@@ -4,7 +4,10 @@ from pathlib import Path
 from IPython.display import display, Markdown
 
 def parse_metrics_json(path: Path):
-    """Fuzzy parser to catch metrics across different LLava/VCD/MFCD formats."""
+    """
+    Metrics had different formats; 
+    This will help with the LLava/VCD/MFCD formats.
+    """
     if not path.exists():
         return None
     try:

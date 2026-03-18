@@ -7,7 +7,7 @@ from pathlib import Path
 from PIL import Image
 from torch.utils.data import Dataset
 
-# --- Configuration ---
+# Constants
 ROOT = '/content/VCD_project'
 ORIG = f'{ROOT}/originalProject'
 MFCD_PATH = f'{ROOT}/originalMFCD/mfcd'

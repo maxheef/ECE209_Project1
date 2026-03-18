@@ -5,7 +5,7 @@ import torch
 from pathlib import Path
 
 def run_cmd(cmd, quiet=True):
-    """Executes commands silently unless an error occurs."""
+    """ Utility function to run shell commands with optional quiet mode."""
     if quiet:
         # Run silently in the background
         result = subprocess.run(
@@ -13,7 +13,7 @@ def run_cmd(cmd, quiet=True):
             stderr=subprocess.PIPE, text=True, env=os.environ.copy()
         )
         if result.returncode != 0:
-            # If it fails, print the error so you can debug
+            # If it fails, print the error
             print(f"\nError details: {result.stderr}")
             raise Exception(f"Command failed: {cmd}")
     else:
@@ -26,7 +26,7 @@ def run_cmd(cmd, quiet=True):
             raise Exception(f"Command failed: {cmd}")
 
 def setup_environments():
-    # --- Configuration ---
+    # Configuration
     CONDA_PATH = '/usr/local/miniconda'
     PROJECT_DIR = '/content/VCD_project'
     REQ_FILE = f'{PROJECT_DIR}/requirements.txt'
@@ -38,7 +38,7 @@ def setup_environments():
     MFCD_PY = f'{CONDA_PATH}/envs/{MFCD_ENV}/bin/python'
     MFCD_PIP = f'{CONDA_PATH}/envs/{MFCD_ENV}/bin/pip'
 
-    # 1) Setup Miniconda
+    # Setup Miniconda
     if not os.path.exists(CONDA_PATH):
         print("Installing Miniconda...")
         run_cmd('wget -q https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O /tmp/miniconda.sh')
@@ -49,15 +49,15 @@ def setup_environments():
     run_cmd(f"{conda_bin} tos accept --override-channels --channel https://repo.anaconda.com/pkgs/main")
     run_cmd(f"{conda_bin} tos accept --override-channels --channel https://repo.anaconda.com/pkgs/r")
 
-    # 2) (Re)create envs
+    # Create envs
     for env_name in [VCD_ENV, MFCD_ENV]:
         env_path = f'{CONDA_PATH}/envs/{env_name}'
         if os.path.exists(env_path):
             shutil.rmtree(env_path)
         print(f'Creating environment: {env_name}...')
         run_cmd(f"{conda_bin} create -n {env_name} python=3.10 -y")
-
-    # 3) Install base requirements
+ 
+    # Install base requirements
     if not os.path.exists(REQ_FILE):
          raise FileNotFoundError(f"Missing {REQ_FILE}")
 
@@ -66,12 +66,12 @@ def setup_environments():
         run_cmd(f"{pip_bin} install --upgrade pip setuptools wheel")
         run_cmd(f"{pip_bin} install --no-cache-dir -r {REQ_FILE}")
 
-    # 4) Pin versions
+    # Pin versions
     print("Applying version pins for VCD and MFCD...")
     run_cmd(f"{VCD_PIP} install --no-cache-dir 'transformers==4.31.0' 'tokenizers==0.13.3' 'numpy<2'")
     run_cmd(f"{MFCD_PIP} install --no-cache-dir 'tokenizers==0.21.0' 'numpy<2'")
 
-    # 5) Save binary paths (legacy + current)
+    # Save binary paths (legacy + current)
     Path('/tmp/vcd_py_path.txt').write_text(VCD_PY)
     Path('/tmp/mfcd_py_path.txt').write_text(MFCD_PY)
     Path('/tmp/vcd_bin.txt').write_text(VCD_PY)
