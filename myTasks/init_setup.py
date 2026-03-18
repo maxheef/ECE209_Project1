@@ -36,32 +36,30 @@ def setup_repo():
 
 def setup_hardware():
     """Heavy lift: Conda environments and Drivers (~4-6 mins)."""
-    # Check if a major environment already exists to skip redundant installs
+    # 1. Check if env exists
     vcd_env_path = f"{CONDA_BASE}/envs/vcd310"
     if os.path.exists(vcd_env_path):
         print("Conda environments already exist. Skipping hardware setup.")
         return
 
+    # 2. Add 'scripts' folder to sys.path so we can import setup_g4/h100
+    # Since init_setup.py is in /myTasks, scripts is at ./scripts
+    scripts_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), 'scripts'))
+    if scripts_dir not in sys.path:
+        sys.path.insert(0, scripts_dir)
+        print(f"Added to path: {scripts_dir}")
+
+    # 3. Detect GPU
     gpu_name = torch.cuda.get_device_name(0) if torch.cuda.is_available() else "CPU"
     print(f"--- Detected {gpu_name}: Installing Environments ---")
 
     if "H100" in gpu_name:
-        from scripts.setup_h100 import setup_h100_env
-        setup_h100_env(root_dir=ROOT)
+        import setup_h100
+        setup_h100.setup_h100_env(root_dir=ROOT)
     else:
-        from scripts.setup_g4 import setup_environments
+        import setup_g4
+        setup_g4.setup_environments()
 
-    # Ensure the scripts folder is in the path so we can import the setup files
-    scripts_path = os.path.join(ROOT, 'scripts')
-    if scripts_path not in sys.path:
-        sys.path.append(scripts_path)
-
-    if "H100" in gpu_name:
-        from setup_h100 import setup_h100_env # Changed from scripts.setup...
-        setup_h100_env(root_dir=ROOT)
-    else:
-        from myTasks.scripts.setup_g4 import setup_environments # Changed from scripts.setup...
-        setup_environments()
 
 def setup_datasets():
     """Heavy lift: COCO Dataset (~4 mins)."""
