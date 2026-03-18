@@ -78,7 +78,7 @@ def show_comparison_table(output_dir='/content/VCD_project/output'):
         'Accuracy': '{:.4f}', 'Precision': '{:.4f}', 'Recall': '{:.4f}', 
         'F1': '{:.4f}',
         'Gain vs Regular (%)': lambda v: v if isinstance(v, str) else f'{v:+.2f}%'
-    }).map(lambda v: f'color: {"green" if v > 0 else "red"}; font-weight: bold',
+    }).map(lambda v: f"color: {'green' if isinstance(v, (int, float)) and v > 0 else 'red'}; font-weight: bold" if isinstance(v, (int, float)) else '',
            subset=['Gain vs Regular (%)']).hide(axis='index')
 
     display(Markdown("### VQA Mitigation Comparison: Regular vs VCD vs MFCD"))
